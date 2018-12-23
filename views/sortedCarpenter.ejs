@@ -1,0 +1,30 @@
+<form method="POST">
+<table style="width:100%">
+    <tr>
+    <th>id</th>
+    <th>image</th>
+    <th>skill</th> 
+    <th>desc</th>
+    <th>price</th>
+    <th>Name</th>
+    <th>select</th>
+    </tr>
+
+    <% carps.forEach((carp)=>{ %>   
+    <tr>
+            <td><%=carp._id%></td>
+            <td><%= carp.requireImage %> </td>
+            <td><%= carp.skill %> </td>
+            <td><%= carp.description %> </td>
+            <td><%= carp.prices %> </td>
+            <td><%= carp.NameWork %> </td>
+            <td><input type="checkbox" name=<%=carp._id%> </td>
+
+    </tr>
+    <% }) %>
+
+</table>
+
+<input type="submit">
+
+</form>
