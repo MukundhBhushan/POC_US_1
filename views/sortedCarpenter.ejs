@@ -1,30 +1,70 @@
+search:<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+<br><br>
 <form method="POST">
-<table style="width:100%">
-    <tr>
-    <th>id</th>
-    <th>image</th>
-    <th>skill</th> 
-    <th>desc</th>
-    <th>price</th>
-    <th>Name</th>
-    <th>select</th>
-    </tr>
+    <table style="width:100%" id="myTable">
+        <tr>
+            <th>id</th>
+            <th>image</th>
+            <th>skill</th>
+            <th>desc</th>
+            <th>price</th>
+            <th>Name</th>
+            <th>select</th>
+        </tr>
 
-    <% carps.forEach((carp)=>{ %>   
-    <tr>
-            <td><%=carp._id%></td>
-            <td><%= carp.requireImage %> </td>
-            <td><%= carp.skill %> </td>
-            <td><%= carp.description %> </td>
-            <td><%= carp.prices %> </td>
-            <td><%= carp.NameWork %> </td>
+        <% carps.forEach((carp)=>{ %>
+        <%if (carp.Workers.Name != "") { %>
+
+        <tr>
+            <td>
+                <%=carp._id%>
+            </td>
+            <td>
+                <%= carp.requireImage %>
+            </td>
+            <td>
+                <%= carp.skill %>
+            </td>
+            <td>
+                <%= carp.description %>
+            </td>
+            <td>
+                <%= carp.Workers.prices %>
+            </td>
+            <td>
+                <%= carp.Workers.Name %>
+            </td>
             <td><input type="checkbox" name=<%=carp._id%> </td>
 
-    </tr>
-    <% }) %>
+        </tr>
+        
+        <% } %>
+        <% }) %>
+        
 
-</table>
+    </table>
 
-<input type="submit">
+    <input type="submit">
 
 </form>
+
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[3];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

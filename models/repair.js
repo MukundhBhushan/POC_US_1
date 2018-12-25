@@ -5,49 +5,56 @@ const Schema = mongoose.Schema;
 // create ninja Schema & model
 const repairsSchema = new Schema({
 
-    requireImage:{
-        type:String,
+    requireImage: {
+        type: String,
         required: true,
-        
+
     },
 
     skill: {
         type: String,
         required: true,
     },
-    description:{
-        type:String,
+    description: {
+        type: String,
         required: true
     },
 
-    accName:{
-        type:String,
+    accName: {
+        type: String,
         required: true
     },
-
-    NameWork:{
-        type:[String],
-        required: true
-    },
-
-    prices:{
-        type:[Number],
-        required: true
+    Workers: {
+        type:[worker]
     }
+
 
 
 });
 
-// var acceptedRep = new Schema({
-//     Name:{
-//         type:String,
-//     },
-//     acc:{
-//         type:Boolean
-//     }
-// })
+var worker = {
+    NameWork: {
+        "Name":{
+            type:String
+        },
+        "price":{
+            type:Number,
+            require:true
+        },
+        required: true
+    },
+
+}
+
+
+// prices: {
+//     type: Number,
+//     required: true
+// }
 
 
 const repairs = mongoose.model('repairs', repairsSchema);
 
-module.exports = {repairs};
+module.exports = {
+    repairs
+};
