@@ -1,4 +1,6 @@
-search:<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+<h3>Customer: select skilled labour</h3>
+<h1></h1>
+Search by item:<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
 <br><br>
 <form method="POST">
     <table style="width:100%" id="myTable">
@@ -14,7 +16,7 @@ search:<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Searc
         </tr>
 
         <% carps.forEach((carp)=>{ %>
-        <%if (carp.Workers.Name != "") { %>
+        <%if (carp.Workers.Name != "" && carp.Workers.price) { %>
 
         <tr>
             <td>
@@ -36,7 +38,7 @@ search:<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Searc
                 <%= carp.Workers.planofaction %>
             </td>
             <td>
-                <%= carp.Workers.prices %>
+                <%= carp.Workers.price %>
             </td>
             <td><input type="checkbox" name=<%=carp._id%> </td>
 
@@ -72,3 +74,8 @@ search:<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Searc
         }
     }
 </script>
+<style>
+    table, th, td {
+        border: 0.3px solid black;
+    }
+</style>
