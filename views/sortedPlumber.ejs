@@ -11,7 +11,6 @@ Search by item:<input type="text" id="myInput" onkeyup="myFunction()" placeholde
             <th>Name</th>
             <th>plan of action</th>
             <th>price</th>
-            <th>rating</th>
             <th>select</th>
         </tr>
 
@@ -23,7 +22,7 @@ Search by item:<input type="text" id="myInput" onkeyup="myFunction()" placeholde
                 <%=carp._id%>
             </td>
             <td>
-                <img src='/img/<%= carp.requireImage %>' height="100" width="100">
+                <%= carp.requireImage %>
             </td>
             <td>
                 <%= carp.skill %>
@@ -33,9 +32,6 @@ Search by item:<input type="text" id="myInput" onkeyup="myFunction()" placeholde
             </td>
             <td>
                 <%= carp.Workers.Name %>
-            </td>
-            <td>
-                <%= carp.Workers.rating %>
             </td>
             <td>
                 <%= carp.Workers.planofaction %>

@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    <h3>Service providers: catelogue </h3>
     <form method="POST">
     <table style="width: 100%;">
         <tr>
@@ -24,7 +25,7 @@
             
         <tr>
             <td><%=carp._id%></td>
-            <td><%= carp.requireImage %> </td>
+            <td><img src='/img/<%= carp.requireImage %>' height="100" width="100"></td>
             <td><%= carp.skill %> </td>
             <td><%= carp.description %> </td>
             <td><input type="text" name=<%=carp._id%> </td>

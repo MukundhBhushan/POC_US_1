@@ -1,6 +1,7 @@
 <form action="/repair" method="post">
     upload image
-    <input type="file" name="img">
+    <input type="file" name="img" id="text" value="image" onchange="getImg()"><br>
+    <img src="" alt="" id="fillImg" height="200" width="200" hidden="true">
     <br><br>
     <select name="selectservice">
         <option value="carpenter" >carpenter</option>
@@ -11,3 +12,14 @@
     <button type="submit" value="submit">submit</button>
 
 </form>
+
+<script>
+function getImg() {
+  var imgName=document.getElementById("text").files.item(0).name;
+  console.log(imgName)
+  document.getElementById("fillImg").src=`/img/${imgName}`
+  document.getElementById("fillImg").style.display="block"
+}
+
+
+</script>

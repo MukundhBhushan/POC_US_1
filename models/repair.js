@@ -32,6 +32,7 @@ const repairsSchema = new Schema({
 
 });
 
+
 var worker = {
     NameWork: {
         "Name":{
@@ -44,16 +45,15 @@ var worker = {
         "planofaction":{
             type:String
         },
+
+        "rating":{
+            type:Number,
+            require:true
+        },
         required: true
     },
 
 }
-
-
-// prices: {
-//     type: Number,
-//     required: true
-// }
 
 
 const repairs = mongoose.model('repairs', repairsSchema);

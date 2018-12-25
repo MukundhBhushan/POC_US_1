@@ -13,7 +13,7 @@ const dbRepair = mongojs(connectionString, ['repairs'])
 
 mongoose.connect(connectionString);
 
-
+app.use( express.static( "public" ) );
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
@@ -109,6 +109,7 @@ app.post('/carpenter/getrepairs', (req, res) => {
                             "Name": arr[0],
                             "planofaction":arr[1],
                             "price": parseInt(arr[2])
+                            
                         }
                     },
 
@@ -138,6 +139,7 @@ app.get('/plumber/getrepairs', (req, res) => {
             console.log(key)
             console.log(req.body[key])
             var arr = req.body[key]
+ 
             dbRepair.repairs.findAndModify({
                 query: {
                     _id: mongojs.ObjectId(key)
@@ -145,13 +147,14 @@ app.get('/plumber/getrepairs', (req, res) => {
 
                 update: {
                     $set: {
-                        accepted: arr[1]
+                        acceptedState: arr[1]
                     },
                     $push: {
                         //"prices.$.NameWork": parseInt(arr[0])
                         'Workers': {
                             "Name": arr[0],
-                            "price": parseInt(arr[1])
+                            "planofaction":arr[1],
+                            "price": parseInt(arr[2])
                         }
                     },
 
@@ -164,6 +167,7 @@ app.get('/plumber/getrepairs', (req, res) => {
                 console.log("err", err)
             })
         })
+        res.redirect('/seeList/plumber')
     })
 })
 
@@ -193,10 +197,44 @@ app.get('/seeList/carpenter', (req, res) => {
 })
 
 app.post('/seeList/carpenter', (req, res) => {
-    res.send("ok cool")
+    res.render("rating")
 
 })
 
+// app.post('/getRating',(req,res)=>{
+    
+// })
+
+
+app.get('/seeList/plumber', (req, res) => {
+    dbRepair.repairs.aggregate({
+            $match: {
+                "skill": "plumber"
+            }
+        },
+
+        {
+            $unwind: '$Workers'
+        },
+
+        {
+            $sort: {
+                'Workers.prices': 1
+            }
+        },
+
+        (err, docs) => {
+            console.log("see list plumner", docs)
+            res.render('sortedPlumber', carps = docs)
+        }
+
+    )
+})
+
+app.post('/seeList/plumber', (req, res) => {
+    res.send("ok cool plumber")
+
+})
 
 
 
