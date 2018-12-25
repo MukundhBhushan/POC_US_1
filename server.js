@@ -107,7 +107,8 @@ app.post('/carpenter/getrepairs', (req, res) => {
                         //"prices.$.NameWork": parseInt(arr[0])
                         'Workers': {
                             "Name": arr[0],
-                            "price": parseInt(arr[1])
+                            "planofaction":arr[1],
+                            "price": parseInt(arr[2])
                         }
                     },
 

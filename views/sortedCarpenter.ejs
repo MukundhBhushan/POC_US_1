@@ -7,8 +7,9 @@ search:<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Searc
             <th>image</th>
             <th>skill</th>
             <th>desc</th>
-            <th>price</th>
             <th>Name</th>
+            <th>plan of action</th>
+            <th>price</th>
             <th>select</th>
         </tr>
 
@@ -29,10 +30,13 @@ search:<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Searc
                 <%= carp.description %>
             </td>
             <td>
-                <%= carp.Workers.prices %>
+                <%= carp.Workers.Name %>
             </td>
             <td>
-                <%= carp.Workers.Name %>
+                <%= carp.Workers.planofaction %>
+            </td>
+            <td>
+                <%= carp.Workers.prices %>
             </td>
             <td><input type="checkbox" name=<%=carp._id%> </td>
 
@@ -40,7 +44,7 @@ search:<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Searc
         
         <% } %>
         <% }) %>
-        
+         
 
     </table>
 

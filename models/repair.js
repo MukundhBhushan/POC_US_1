@@ -41,6 +41,9 @@ var worker = {
             type:Number,
             require:true
         },
+        "planofaction":{
+            type:String
+        },
         required: true
     },
 
