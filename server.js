@@ -9,6 +9,8 @@ const {
     repairs
 } = require('./models/repair')
 
+const {skills}=require('./models/skilloptions')
+
 const dbRepair = mongojs(connectionString, ['repairs'])
 
 mongoose.connect(connectionString);
@@ -24,6 +26,9 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+app.get('/admin',(req,res)=>{
+    res.render('admin')
+})
 
 app.get('/', (req, res) => {
     res.render('home')
@@ -37,9 +42,9 @@ app.post('/login', (req, res) => {
     console.log("login", req.body)
 
     if (req.body.password != '') {
-        res.redirect('/repair')
+        res.render('/repair')
     } else {
-        res.redirect('/login')
+        res.render('/login')
     }
 })
 
@@ -64,25 +69,27 @@ app.post('/repair', (req, res, next) => {
         prices: []
     })
     rep.save()
-    res.redirect('/carpenter/getrepairs')
+    app.set('skill',req.body.selectservice)
+    console.log(app.set('skill',req.body.selectservice))
+    res.redirect(`/getrepairs/${req.body.selectservice}`)
 })
 
-app.get('/carpenter/getrepairs', (req, res) => {
+app.get(`/getrepairs/:${app.get('skill')}`, (req, res) => {
     dbRepair.repairs.find({
-        "skill": "carpenter"
+        "skill": app.get('skill')
     }, (err, docs) => {
 
         console.log(docs)
-        res.render('carpenter', carps = docs)
+        res.render('skilled', carps = docs)
     })
 
-    //{"skill":"carpenter"}
+    //{"skill":"carpenter"}${app.get('skill')}
 })
 
-app.post('/carpenter/getrepairs', (req, res) => {
+app.post(`/getrepairs/:${app.get('skill')}`, (req, res) => {
 
     dbRepair.repairs.find({
-        "skill": "carpenter"
+        "skill": app.get('skill')
     }, (err, docs) => {
 
         console.log(req.body)
@@ -113,68 +120,21 @@ app.post('/carpenter/getrepairs', (req, res) => {
                         }
                     },
 
-                    // $push: {
-                    //     'Workers.NameWork.Name': (arr[0])
-                    // }
                 },
                 new: false
             }, function (err, doc, lastErrorObject) {
                 console.log("err", err)
             })
         })
-        res.redirect('/seeList/carpenter')
+        res.redirect(`/seeList/${app.get('skill')}`)
     })
 })
 
-app.get('/plumber/getrepairs', (req, res) => {
-    dbRepair.repairs.find({
-        "skill": "plumber"
-    }, (err, docs) => {
 
-        console.log(req.body)
-        keys = Object.keys(req.body)
-
-
-        keys.forEach(key => {
-            console.log(key)
-            console.log(req.body[key])
-            var arr = req.body[key]
- 
-            dbRepair.repairs.findAndModify({
-                query: {
-                    _id: mongojs.ObjectId(key)
-                },
-
-                update: {
-                    $set: {
-                        acceptedState: arr[1]
-                    },
-                    $push: {
-                        //"prices.$.NameWork": parseInt(arr[0])
-                        'Workers': {
-                            "Name": arr[0],
-                            "planofaction":arr[1],
-                            "price": parseInt(arr[2])
-                        }
-                    },
-
-                    // $push: {
-                    //     'Workers.NameWork.Name': (arr[0])
-                    // }
-                },
-                new: false
-            }, function (err, doc, lastErrorObject) {
-                console.log("err", err)
-            })
-        })
-        res.redirect('/seeList/plumber')
-    })
-})
-
-app.get('/seeList/carpenter', (req, res) => {
+app.get(`/seeList/:${app.get('skill')}`, (req, res) => {
     dbRepair.repairs.aggregate({
             $match: {
-                "skill": "carpenter"
+                "skill": app.get('skill')
             }
         },
 
@@ -196,7 +156,7 @@ app.get('/seeList/carpenter', (req, res) => {
     )
 })
 
-app.post('/seeList/carpenter', (req, res) => {
+app.post(`/seeList/:${app.get('skill')}`, (req, res) => {
     res.render("rating")
 
 })
@@ -206,35 +166,35 @@ app.post('/seeList/carpenter', (req, res) => {
 // })
 
 
-app.get('/seeList/plumber', (req, res) => {
-    dbRepair.repairs.aggregate({
-            $match: {
-                "skill": "plumber"
-            }
-        },
+// app.get('/seeList/plumber', (req, res) => {
+//     dbRepair.repairs.aggregate({
+//             $match: {
+//                 "skill": "plumber"
+//             }
+//         },
 
-        {
-            $unwind: '$Workers'
-        },
+//         {
+//             $unwind: '$Workers'
+//         },
 
-        {
-            $sort: {
-                'Workers.prices': 1
-            }
-        },
+//         {
+//             $sort: {
+//                 'Workers.prices': 1
+//             }
+//         },
 
-        (err, docs) => {
-            console.log("see list plumner", docs)
-            res.render('sortedPlumber', carps = docs)
-        }
+//         (err, docs) => {
+//             console.log("see list plumner", docs)
+//             res.render('sortedPlumber', carps = docs)
+//         }
 
-    )
-})
+//     )
+// })
 
-app.post('/seeList/plumber', (req, res) => {
-    res.send("ok cool plumber")
+// app.post('/seeList/plumber', (req, res) => {
+//     res.send("ok cool plumber")
 
-})
+// })
 
 
 
