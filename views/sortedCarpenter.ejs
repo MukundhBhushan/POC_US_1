@@ -10,11 +10,11 @@ Search by item:<input type="text" id="myInput" onkeyup="myFunction()" placeholde
             <th>desc</th>
             <th>Name</th>
             <th>plan of action</th>
-            <th>price</th>
             <th>rating</th>
+            <th>price</th>
             <th>select</th>
         </tr>
-
+    
         <% carps.forEach((carp)=>{ %>
         <%if (carp.Workers.Name != "" && carp.Workers.price) { %>
 
@@ -35,10 +35,11 @@ Search by item:<input type="text" id="myInput" onkeyup="myFunction()" placeholde
                 <%= carp.Workers.Name %>
             </td>
             <td>
-                <%= carp.Workers.rating %>
-            </td>
-            <td>
                 <%= carp.Workers.planofaction %>
+            </td>
+            <td id="ratingfill">
+                3.5
+                <!-- <%= carp.Workers.rating %> -->
             </td>
             <td>
                 <%= carp.Workers.price %>
@@ -76,6 +77,13 @@ Search by item:<input type="text" id="myInput" onkeyup="myFunction()" placeholde
             }
         }
     }
+
+    // function getRandom(){
+        ratingArr=[4.3,3.4,3.5,4,35]
+        var rand = ratingArr[Math.floor(Math.random() * ratingArr.length)];
+        document.getElementById("ratingfill").innerHTML=rand
+
+    //}
 </script>
 <style>
     table, th, td {

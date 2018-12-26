@@ -1,4 +1,9 @@
-<form method="post" action="/getRating">
-    rate service
-    <input type="text">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<form method="post" action="/rateservice">
+    <h3>rate service</h3>
+    <% keys.forEach((key)=>{ %>
+        <input type="number" name="<%=key%>">
+    <% }) %>
+    <input type="submit" value="submit" class="btn btn-primary btn-md">
 </form>

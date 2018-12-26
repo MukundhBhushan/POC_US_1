@@ -94,7 +94,7 @@ app.post('/repair', (req, res, next) => {
     rep.save()
     app.set('skill',req.body.selectservice)
     console.log(app.set('skill',req.body.selectservice))
-    res.redirect(`/getrepairs/${req.body.selectservice}`)
+    res.redirect(`/getrepairs/${req.body.selectservice}`).reload()
 })
 
 app.get(`/getrepairs/:${app.get('skill')}`, (req, res) => {
@@ -155,6 +155,7 @@ app.post(`/getrepairs/:${app.get('skill')}`, (req, res) => {
 
 
 app.get(`/seeList/:${app.get('skill')}`, (req, res) => {
+    
     dbRepair.repairs.aggregate({
             $match: {
                 "skill": app.get('skill')
@@ -180,9 +181,28 @@ app.get(`/seeList/:${app.get('skill')}`, (req, res) => {
 })
 
 app.post(`/seeList/:${app.get('skill')}`, (req, res) => {
-    res.render("rating")
+    selected=[]
+    console.log(req.body)
+    keys = Object.keys(req.body)
+    
+    console.log(keys)
+    app.set("selectedarr",keys)
+    // keyslength=keys.length()
+    res.redirect("/rateservice")
 
 })
+
+app.get('/rateservice',(req,res)=>{
+
+    res.render('rating',keys=app.get('selectedarr'))
+})
+
+app.post('/rateservice',(req,res)=>{
+    //dbRepair.repairs.remove()
+    res.send('thanks')
+})
+
+
 
 
 
