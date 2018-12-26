@@ -10,8 +10,6 @@ const SkillSchema = new Schema({
         require:true
     }
 
-
-
 });
 
 

@@ -3,7 +3,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const path = require('path')
 const mongojs = require('mongojs')
-const connectionString = 'mongodb://Mukundh:123456a@ds026558.mlab.com:26558/urbanslap'
+var connectionString = 'mongodb://Mukundh:123456a@ds026558.mlab.com:26558/urbanslap'
 const mongoose = require('mongoose');
 const {
     repairs
@@ -12,6 +12,7 @@ const {
 const {skills}=require('./models/skilloptions')
 
 const dbRepair = mongojs(connectionString, ['repairs'])
+const dbSkill = mongojs(connectionString, ['skills'])
 
 mongoose.connect(connectionString);
 
@@ -42,10 +43,27 @@ app.post('/login', (req, res) => {
     console.log("login", req.body)
 
     if (req.body.password != '') {
-        res.render('/repair')
+        res.redirect('/repair')
     } else {
-        res.render('/login')
+        res.redirect('/login')
     }
+})
+// app.get('/login/admin',(req,res)=>{
+//     res.render('adminLogin')
+// })
+
+app.get('/admin',(req,res)=>{
+    res.render('admin')
+})
+
+app.post('/admin',(req,res)=>{
+    var newField=req.body.newfield
+    console.log(req.body)
+    let skill=new skills({
+        skillType:newField
+    }).save()
+    res.redirect('/')
+
 })
 
 app.get('/signup/customer', (req, res) => {
@@ -57,7 +75,12 @@ app.get('/signup/serviceprovider', (req, res) => {
 })
 
 app.get('/repair', (req, res) => {
-    res.render('repair')
+    dbSkill.skills.find({},function (err, docs) {
+        console.log('repair',docs)   
+        res.render('repair',skilltypes=docs) 
+    })
+    
+    
 })
 
 app.post('/repair', (req, res, next) => {
@@ -161,40 +184,6 @@ app.post(`/seeList/:${app.get('skill')}`, (req, res) => {
 
 })
 
-// app.post('/getRating',(req,res)=>{
-    
-// })
-
-
-// app.get('/seeList/plumber', (req, res) => {
-//     dbRepair.repairs.aggregate({
-//             $match: {
-//                 "skill": "plumber"
-//             }
-//         },
-
-//         {
-//             $unwind: '$Workers'
-//         },
-
-//         {
-//             $sort: {
-//                 'Workers.prices': 1
-//             }
-//         },
-
-//         (err, docs) => {
-//             console.log("see list plumner", docs)
-//             res.render('sortedPlumber', carps = docs)
-//         }
-
-//     )
-// })
-
-// app.post('/seeList/plumber', (req, res) => {
-//     res.send("ok cool plumber")
-
-// })
 
 
 

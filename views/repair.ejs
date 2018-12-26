@@ -4,8 +4,9 @@
     <img src="" alt="" id="fillImg" height="200" width="200" hidden="true">
     <br><br>
     <select name="selectservice">
-        <option value="carpenter" >carpenter</option>
-        <option value="plumber">plumber</option>
+        <% skilltypes.forEach((st)=>{ %>
+            <option value="<%=st.skillType%>" ><%=st.skillType%></option>
+        <% }) %>
     </select>
     <br><br>
     <input type="text" name="description">
